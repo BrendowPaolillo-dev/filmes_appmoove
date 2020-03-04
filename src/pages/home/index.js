@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Link } from "react-router-dom"
 import YouTube from 'react-youtube';
 
-import { Carousel, Col, Row } from 'antd';
+import { Carousel, Col, Row, Rate } from 'antd';
 import 'react-awesome-slider/dist/styles.css';
 
 
@@ -68,13 +68,28 @@ export default class Home extends Component {
         //console.log(index)
         return (
           <div id={"divinterna"} style={{ position: 'relative' }} key={item.id} >
-            <h3>
-              {item.title}
-            </h3>
-            <img style={{ width: "20%", zIndex: '999999' }} className="imgTheatre" src={imgBase + item.poster_path} alt={"posters filmes no cinema"} />
-            <YouTube
-              videoId={this.state.trailers[index]}
-            />
+            <Row>
+              <h3>
+                <b>
+                  <Link to={`/movie/${item.id}`} style={{color:"white"}}>
+                    {item.title}
+                  </Link>
+                </b>
+              </h3>
+            </Row>
+            <Row justify="start">
+              <Col span={8}>
+                <Link to={`/movie/${item.id}`}>
+                  <img style={{ width: "75%", margin: "0 0 0 auto" }} className="imgTheatre" src={imgBase + item.poster_path} alt={"posters filmes no cinema"} />
+                </Link>
+              </Col>
+              <Col span={16}>
+                <YouTube
+                  videoId={this.state.trailers[index]}
+                  style={{ width: "100%", margin: "0 0 0 0", }}
+                />
+              </Col>
+            </Row>
           </div>
         )
       })
@@ -84,16 +99,24 @@ export default class Home extends Component {
     return (
       this.state.popular.map((item) => {
         return (
-          <div id={"divinterna"} style={{ position: 'relative' }} key={item.id} >
-            <img style={{ width: "20%", zIndex: '999999' }} className="imgTheatre" src={imgBase + item.poster_path} alt={"posters filmes no cinema"} />
-            <h3>
-              <Link to={`/movie/${item.id}`}>
-                {item.title}
-              </Link>
-            </h3>
-            <h4>
-              {item.overview}
-            </h4>
+          <div style={{ position: 'relative' }} key={item.id} style={{ backgroundColor: "#101010", marginBottom: "10px", marginRight: "50px", marginLeft: "50px" }} >
+            <Row>
+              <Col span={8}>
+                <Link to={`/movie/${item.id}`}>
+                  <img style={{ width: "50%", borderRadius:"3px", border: "#01d277", borderStyle: "solid", borderWidth: "20%", borderRadius:"10px" }} className="imgTheatre" src={imgBase + item.poster_path} alt={"posters filmes no cinema"} />
+                </Link>
+              </Col>
+              <Col span={10} style={{ margin: "auto" }}>
+                <h3>
+                  <Link to={`/movie/${item.id}`}>
+                    {item.title}
+                  </Link>
+                </h3>
+                <h4 style={{ color: "white" }}>
+                  {item.overview}
+                </h4>
+              </Col>
+            </Row>
           </div>
         )
       })
@@ -102,9 +125,9 @@ export default class Home extends Component {
 
   render() {
     return (
-      <div>
+      <div className={"background"}>
         <Header></Header>
-        <div>
+        <div style={{ padding: "auto" }}>
           <Carousel id={"carrossel"}
           >
             {this.renderMovieData()}
@@ -112,7 +135,13 @@ export default class Home extends Component {
         </div>
         <div>
           <Row>
-            <h2>Populares</h2>
+            <div style={{width:"100%", margin: "20px 100px 20px 100px"}}>
+            <h2 style={{ color: "white", fontSize: "25px",  }}>
+              <b>
+                Populares
+              </b>
+            </h2>
+            </div>
           </Row>
           <Row>
             <Col>
