@@ -29,7 +29,7 @@ export default class Details extends Component {
     return (
       <div >
         <div>
-          <img style={{ width: "50%" }} src={imgBase + this.state.movie.poster_path} alt={"`Poster de ${this.state.movie.title}`"} />
+          <img style={{ width: "50%" }} src={imgBase + this.state.movie.poster_path} alt={`Poster de ${this.state.movie.title}`} />
           <h2>
             {this.state.movie.title}
           </h2>
@@ -43,7 +43,7 @@ export default class Details extends Component {
   render() {
     return(
       <div>
-        {this.state.isLoad == true ? this.renderMovie() : <span></span>}
+        {this.state.isLoad === true ? this.renderMovie() : <span></span>}
       </div>
       );
   }

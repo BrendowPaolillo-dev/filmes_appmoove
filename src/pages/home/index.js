@@ -22,7 +22,7 @@ export default class Home extends Component {
     super(props)
     this.state = {
       onTheatres: [],
-      suggest: [],
+      popular: [],
       posterUrl: [],
       moviesNames: [],
       trailers: [],
@@ -43,7 +43,7 @@ export default class Home extends Component {
     });
     await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${config.API_KEY}&language=pt-BR`).then((res) => {
       console.log(res);
-      this.setState({ suggest: res.data.results.slice(0, 10) })
+      this.setState({ popular: res.data.results.slice(0, 10) })
     }).catch((err) => {
       console.log(err);
     });
@@ -80,9 +80,9 @@ export default class Home extends Component {
       })
     )
   }
-  renderSuggest() {
+  renderPopular() {
     return (
-      this.state.suggest.map((item) => {
+      this.state.popular.map((item) => {
         return (
           <div id={"divinterna"} style={{ position: 'relative' }} key={item.id} >
             <img style={{ width: "20%", zIndex: '999999' }} className="imgTheatre" src={imgBase + item.poster_path} alt={"posters filmes no cinema"} />
@@ -116,7 +116,7 @@ export default class Home extends Component {
           </Row>
           <Row>
             <Col>
-              {this.renderSuggest()}
+              {this.renderPopular()}
             </Col>
           </Row>
         </div>
