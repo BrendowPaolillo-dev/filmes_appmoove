@@ -1,6 +1,22 @@
 .header{
     background-color: #000;
     color: #FFF;
+    height: 50px;
+    display: flex;
+    position: relative;
+}
+.header .search{
+    font-size: 18px;
+    color: black;
+    position: absolute;
+    justify-self: left;
+    top: 15%;
+    right: 5px;
+    float: right;
+    width: 50%;
+    border-radius: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
     padding-left: 20px;
-    display: 'block';
+    margin-left: 20px;
 }
