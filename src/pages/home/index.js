@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Link } from "react-router-dom"
 import YouTube from 'react-youtube';
 
-import { Carousel, Col, Row, Rate } from 'antd';
+import { Carousel, Col, Row, Rate, Pagination } from 'antd';
 import 'react-awesome-slider/dist/styles.css';
 
 
@@ -27,6 +27,9 @@ export default class Home extends Component {
       moviesNames: [],
       trailers: [],
       player: null,
+      page_num: 1,
+      slice_popular_start: 0,
+      slice_popular_end: 10
     }
   }
   async componentDidMount() {
@@ -43,7 +46,7 @@ export default class Home extends Component {
     });
     await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${config.API_KEY}&language=pt-BR`).then((res) => {
       console.log(res);
-      this.setState({ popular: res.data.results.slice(0, 10) })
+      this.setState({ popular: res.data.results.slice(this.state.slice_popular_start, this.state.slice_popular_end) })
     }).catch((err) => {
       console.log(err);
     });
@@ -99,14 +102,31 @@ export default class Home extends Component {
     return (
       this.state.popular.map((item) => {
         return (
-          <div style={{ position: 'relative' }} key={item.id} style={{ backgroundColor: "#101010", marginBottom: "10px", marginRight: "50px", marginLeft: "50px" }} >
+          <div style={{ position: 'relative' }} key={item.id} 
+          style={{ backgroundColor: "#101010", 
+          marginBottom: "10px", 
+          marginRight: "50px", 
+          marginLeft: "50px" }} >
             <Row>
               <Col span={8}>
                 <Link to={`/movie/${item.id}`}>
-                  <img style={{ width: "50%", borderRadius:"3px", border: "#01d277", borderStyle: "solid", borderWidth: "20%", borderRadius:"10px" }} className="imgTheatre" src={imgBase + item.poster_path} alt={"posters filmes no cinema"} />
+                  <img 
+                  style={{ width: "50%",
+                   borderRadius:"3px", 
+                   border: "#01d277", 
+                   borderStyle: "solid", 
+                   borderWidth: "20%", 
+                   borderRadius:"10px", 
+                   marginLeft: "100px",
+                   marginBottom: "20px",
+                   marginTop: "20px"}} className="imgTheatre" 
+                   src={imgBase + item.poster_path} alt={"posters filmes no cinema"} />
                 </Link>
               </Col>
-              <Col span={10} style={{ margin: "auto" }}>
+              <Col span={10} 
+              style={{ marginRight: "100px", 
+              marginTop: "50px",
+              marginBottom: "50px" }}>
                 <h3>
                   <Link to={`/movie/${item.id}`}>
                     {item.title}
@@ -123,6 +143,25 @@ export default class Home extends Component {
     )
   }
 
+  SelectSlice(event){
+    if (event > this.state.page_num) {
+      this.setState({
+        slice_popular_start: this.state.slice_popular_start += 10, 
+        slice_popular_end: this.state.slice_popular_end += 10,
+        page_num: event
+      })
+    }
+    else if (event < this.state.page_num) {
+      this.setState({
+        slice_popular_start: this.state.slice_popular_start -= 10, 
+        slice_popular_end: this.state.slice_popular_end -= 10,
+        page_num: event
+      })
+    }
+    console.log(this.state.slice_popular_start, this.state.slice_popular_end, this.state.page_num)
+    this.componentDidMount()
+  }
+
   render() {
     return (
       <div className={"background"}>
@@ -136,9 +175,9 @@ export default class Home extends Component {
         <div>
           <Row>
             <div style={{width:"100%", margin: "20px 100px 20px 100px"}}>
-            <h2 style={{ color: "white", fontSize: "25px",  }}>
+            <h2 style={{ color: "white", fontSize: "25px", marginTop: "20px" }}>
               <b>
-                Populares
+                Top 20 filmes populares
               </b>
             </h2>
             </div>
@@ -148,6 +187,17 @@ export default class Home extends Component {
               {this.renderPopular()}
             </Col>
           </Row>
+        </div>
+        <div style={{display: "flex",  justifyContent: "center"}}>
+          <Pagination defaultCurrent={1} total={20}
+          style={{
+            backgroundColor: "#101010",
+            marginBottom: "10px",
+          }}
+          onChange={
+            (event) =>
+            this.SelectSlice(event)
+          } />
         </div>
       </div>
     );

@@ -30,13 +30,13 @@ export default class Details extends Component {
   }
   renderMovie() {
     return (
-      <div >
+      <div style={{marginTop: "50px"}}>
         <Row>
-          <Col span={8}>
-            <img style={{ width: "70%" }} src={imgBase + this.state.movie.poster_path} alt={`Poster de ${this.state.movie.title}`} />
+          <Col span={8} offset ={4}>
+            <img style={{ width: "70%", }} src={imgBase + this.state.movie.poster_path} alt={`Poster de ${this.state.movie.title}`} />
           </Col>
           <Col span={10} style={{ margin: "auto" }}>
-            <h2 style={{ color: "white" }}>
+            <h2 style={{ color: "white" , fontWeight: "Bold"}}>
               {this.state.movie.title}
             </h2>
             <h3 style={{ color: "white" }}>
@@ -52,7 +52,12 @@ export default class Details extends Component {
   }
   render() {
     return (
-      <div className="background" style={{ width: "100%", height: "100%", backgroundSize: "cover", backgroundRepeat:"repeat"}}>
+      <div className="background" style={{
+        width: "100%", 
+        height: "100%", 
+        backgroundSize: "cover", 
+        backgroundRepeat:"repeat",
+        }}>
         <Header></Header>
         {this.state.isLoad === true ? this.renderMovie() : <span></span>}
       </div>
